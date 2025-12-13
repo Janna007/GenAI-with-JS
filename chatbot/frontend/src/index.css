@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design System - Warm Amber & Deep Charcoal Theme */
+
+@layer base {
+  :root {
+    --font-sans: 'Space Grotesk', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --background: 40 20% 98%;
+    --foreground: 30 10% 15%;
+
+    --card: 40 25% 96%;
+    --card-foreground: 30 10% 15%;
+
+    --popover: 40 25% 96%;
+    --popover-foreground: 30 10% 15%;
+
+    --primary: 25 95% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 40 20% 92%;
+    --secondary-foreground: 30 10% 25%;
+
+    --muted: 40 15% 90%;
+    --muted-foreground: 30 8% 45%;
+
+    --accent: 25 90% 58%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 40 15% 85%;
+    --input: 40 20% 88%;
+    --ring: 25 95% 53%;
+
+    --radius: 0.75rem;
+
+    --chat-user: 25 95% 53%;
+    --chat-ai: 40 25% 94%;
+    --chat-ai-foreground: 30 10% 15%;
+
+    --sidebar-background: 40 25% 96%;
+    --sidebar-foreground: 30 10% 25%;
+    --sidebar-primary: 25 95% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 40 20% 90%;
+    --sidebar-accent-foreground: 30 10% 20%;
+    --sidebar-border: 40 15% 88%;
+    --sidebar-ring: 25 95% 53%;
+  }
+
+  .dark {
+    --background: 30 15% 8%;
+    --foreground: 40 20% 95%;
+
+    --card: 30 12% 12%;
+    --card-foreground: 40 20% 95%;
+
+    --popover: 30 12% 12%;
+    --popover-foreground: 40 20% 95%;
+
+    --primary: 25 95% 55%;
+    --primary-foreground: 30 15% 8%;
+
+    --secondary: 30 10% 18%;
+    --secondary-foreground: 40 20% 90%;
+
+    --muted: 30 10% 20%;
+    --muted-foreground: 40 10% 55%;
+
+    --accent: 25 90% 50%;
+    --accent-foreground: 30 15% 8%;
+
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 10% 20%;
+    --input: 30 10% 22%;
+    --ring: 25 95% 55%;
+
+    --chat-user: 25 95% 55%;
+    --chat-ai: 30 12% 15%;
+    --chat-ai-foreground: 40 20% 92%;
+
+    --sidebar-background: 30 12% 10%;
+    --sidebar-foreground: 40 20% 90%;
+    --sidebar-primary: 25 95% 55%;
+    --sidebar-primary-foreground: 30 15% 8%;
+    --sidebar-accent: 30 10% 16%;
+    --sidebar-accent-foreground: 40 20% 92%;
+    --sidebar-border: 30 10% 18%;
+    --sidebar-ring: 25 95% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: var(--font-sans);
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  code, pre {
+    font-family: var(--font-mono);
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+}
+
+@layer components {
+  .chat-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--accent) / 0.05));
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+}
