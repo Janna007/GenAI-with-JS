@@ -2,28 +2,57 @@ import Groq from "groq-sdk";
 import { tavily } from "@tavily/core";
 import {config} from 'dotenv'
 
+import NodeCache from  "node-cache" 
+
+
+const myCache = new NodeCache({stdTTL:60 * 60 * 24}); //24 hour
+
 config()
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 const tvly = tavily({ apiKey: process.env.TAVILY_API_KEY });
 
-let messages = [
+let baseMessages = [
   {
     role: "system",
     content: "You are smart assistant,Answer the below Question ",
   },
 ];
 
+let messages;
 
-export async function chatWithLlm(message){
+
+// console.log(messages)
+
+export async function chatWithLlm(message,threadId){
   
-    messages.push({
+   messages =
+  threadId && myCache.get(threadId)
+    ? myCache.get(threadId)
+    : baseMessages;
+
+  
+   
+   messages.push({
         role:"user",
         content:message
      })
 
+    //  console.log(messages)
+
+    const MAX_TRY=10
+    let count=0
+
     while (true) {
   
+
+      if(count>MAX_TRY){
+        return "I could not find the answer !! Try Agail"
+      }
+
+      count++
+
+      
         const chatCompletion = await getGroqChatCompletion();
         //   console.log(chatCompletion.choices[0]?.message.tool_calls,null,2);
     
@@ -32,6 +61,13 @@ export async function chatWithLlm(message){
         const toolCalls = chatCompletion.choices[0]?.message.tool_calls;
     
         if (!toolCalls) {
+          console.log("messages",messages)
+           myCache.set(threadId,messages)
+          //  
+          console.log(JSON.stringify(myCache.data, null, 2));
+          // messages.push({
+          //   role:"assistant"
+          // });
            return chatCompletion.choices[0]?.message.content 
         }
     
@@ -60,7 +96,6 @@ export async function chatWithLlm(message){
 // rl.close()
 
 }
-
 
 export async function getGroqChatCompletion() {
   return groq.chat.completions.create({

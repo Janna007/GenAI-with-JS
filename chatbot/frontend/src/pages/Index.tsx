@@ -20,6 +20,8 @@ interface Chat {
 }
 
 const Index = () => {
+ 
+  const [threadId,setThreadId]=useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
 
@@ -44,6 +46,23 @@ const Index = () => {
   }, [activeChat?.messages]);
 
 
+  useEffect(() => {
+    let storedThreadId = localStorage.getItem("threadId");
+    if ( !storedThreadId ||
+      storedThreadId === "null" ||
+      storedThreadId === "undefined") {
+      storedThreadId = Date.now().toString(36);
+      localStorage.setItem("threadId", storedThreadId);
+    }
+  
+    setThreadId(storedThreadId);
+  }, []);
+
+  useEffect(() => {
+    if (threadId) {
+      console.log("ThreadId:", threadId);
+    }
+  }, [threadId]);
 
   const handleNewChat = () => {
     const newChat: Chat = {
@@ -102,13 +121,13 @@ const Index = () => {
 
     // Simulate AI response
 
-    const res=await chatWithLlm({message:content})
+    const res=await chatWithLlm({message:content,threadId:threadId})
 
     console.log("response",res)
 
-    if(isChatPending){
-      setIsLoading(true)
-    }
+    // if(isChatPending){
+    //   setIsLoading(true)
+    // }
 
     const aimsg:string=res.data.message
     
@@ -125,7 +144,7 @@ const Index = () => {
         )
       );
 
-      setIsLoading(false);
+      // setIsLoading(false);
    
   }; 
 
@@ -174,7 +193,7 @@ const Index = () => {
                   content={message.content}
                 />
               ))}
-              {isLoading && (
+              {isChatPending && (
                 <ChatMessage role="assistant" content="" isLoading />
               )}
               <div ref={messagesEndRef} />

@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { api } from "./client";
 
-const chat=(message)=>{
-    return api.post('/chat',message)
+const chat=({message,threadId})=>{
+    return api.post('/chat',{message,threadId})
     
 }
 

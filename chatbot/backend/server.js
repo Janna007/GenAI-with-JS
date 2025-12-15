@@ -24,17 +24,25 @@ router.get('/',(req,res)=>{
 router.post('/chat',async (req,res)=>{
     try {
 
-        const {message}=req.body
+        const {message,threadId}=req.body
+
+        console.log(message,threadId)
+
+        if(!message || !threadId){
+            return res.status(400).json({
+                message:"All Fields are required!!"
+            })
+        }
 
         console.log(message)
-        const response=await chatWithLlm(message)
+        const response=await chatWithLlm(message,threadId)
         
-         res.status(201).json({
+         return res.status(201).json({
             message:response
         })
     } catch (error) {
         console.log(error.message)
-         res.status(500).json({
+         return res.status(500).json({
             message:error.message
         })
     }
