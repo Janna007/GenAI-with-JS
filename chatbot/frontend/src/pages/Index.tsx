@@ -121,16 +121,16 @@ const Index = () => {
 
     // Simulate AI response
 
-    const res=await chatWithLlm({message:content,threadId:threadId})
+      const res=await chatWithLlm({message:content,threadId:threadId})
 
-    console.log("response",res)
+      console.log("response",res)
 
-    // if(isChatPending){
-    //   setIsLoading(true)
-    // }
+      // if(isChatPending){
+      //   setIsLoading(true)
+      // }
 
-    const aimsg:string=res.data.message
-    
+      const aimsg:string=res.data.message
+      
       const aiMessage: Message = {
         role:"assistant",
         content:aimsg
