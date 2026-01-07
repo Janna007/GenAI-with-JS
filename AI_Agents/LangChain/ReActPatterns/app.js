@@ -69,8 +69,8 @@ const searchDatabase = new DynamicStructuredTool({
 const model = new ChatGoogleGenerativeAI({
   model: "gemini-2.5-flash",
   temperature: 0,
-  maxOutputTokens: 1200,
-  maxRetries: 2,
+  maxOutputTokens: 20,
+  maxRetries: 1,
 });
 
 const agent = createAgent({
