@@ -17,6 +17,8 @@ config();
 // const basicModel = new ChatOpenAI({ model: "gpt-4o-mini" });
 // const advancedModel = new ChatOpenAI({ model: "gpt-4o" });
 
+//tool calling
+
 const getWeather = tool(({}) => {}, {
   name: "get_weather",
   description: "Get weather information for a location",
@@ -27,6 +29,7 @@ const getWeather = tool(({}) => {}, {
 
 
 
+//middleware for dynamic model selection
 
 // const dynamicModelSelection = createMiddleware({
 //   name: "DynamicModelSelection",
@@ -42,6 +45,8 @@ const getWeather = tool(({}) => {}, {
 // });
 
 
+//middleware for dynamic sysytem prompting
+
 const dynamicSystemPrompt= dynamicSystemPromptMiddleware((state,runtime)=>{
   const userRole = runtime.context.userRole || "user";
   const basePrompt = "You are a helpful assistant.";
@@ -55,6 +60,7 @@ const dynamicSystemPrompt= dynamicSystemPromptMiddleware((state,runtime)=>{
 })
 
 
+//middleware for handling tool errors
 const handleToolErros = createMiddleware({
   name: "HandleToolErrors",
   wrapToolCall: async (request, handler) => {
@@ -84,9 +90,9 @@ const agent = createAgent({
 });
 
 async function run() {
-  const res = await agent.invoke({
+  const res  = await agent.invoke({
     messages: [
-      { role: "user", content: "What is machine learning?." },
+      { role: "user", content: "What is the weather in bangalore?." },
 
     ],
   },
@@ -99,7 +105,13 @@ async function run() {
 
   // console.log(res)
 
+  // for await (const chunk of stream ) {
+  //   console.log(chunk.model_request.messages[0].content)
+  //   // console.log(chunk.text ?? "")
+  // }
+
   const toolMsg=res.messages.find((m) => m.constructor.name === "ToolMessage")
+  
   if(toolMsg && toolMsg?.content?.length >0){
     console.log(toolMsg.content)
   }
@@ -129,6 +141,10 @@ run();
 
 
 
+
+
+
+//mock tool calling to check tool error handling
 
 // const getWeather = tool(
 //   async () => {
